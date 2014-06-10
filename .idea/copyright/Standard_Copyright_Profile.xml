@@ -1,0 +1,9 @@
+<component name="CopyrightManager">
+  <copyright>
+    <option name="notice" value="/*&#10; * (C) Copyright &amp;#36;today.year.&#10; *&#10; * All rights reserved. This program and the accompanying materials&#10; * are made available under the terms of the GNU General Public License&#10; * (GPL) version 2.1 which accompanies this distribution, and is available at&#10; * http://www.gnu.org/copyleft/gpl.html&#10; *&#10; * This library is distributed in the hope that it will be useful,&#10; * but WITHOUT ANY WARRANTY; without even the implied warranty of&#10; * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU&#10; * Lesser General Public License for more details.&#10; *&#10; * Contributors:&#10; *   1. Costi Rada&#10; */" />
+    <option name="keyword" value="Copyright" />
+    <option name="allowReplaceKeyword" value="" />
+    <option name="myName" value="Standard Copyright Profile" />
+    <option name="myLocal" value="true" />
+  </copyright>
+</component>

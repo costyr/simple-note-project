@@ -1,3 +1,19 @@
+/**
+ * (C) Copyright 2014 Costi Rada.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU General Public License
+ * (GPL) version 3.0 which accompanies this distribution, and is available at
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * Contributors:
+ */
+
 package simplenote.activity;
 
 import android.content.Context;
