@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
         android:id="@+id/editNoteTitle"
-        android:background="@drawable/edit_bg"
+        android:background="@drawable/edit_bg"/>
 
     <EditText
         android:layout_width="fill_parent"
