@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_world"
         android:id="@+id/editNoteTitle"
-        android:background="@drawable/edit_bg"/>
+        android:background="@drawable/edit_bg"
 
     <EditText
         android:layout_width="fill_parent"
@@ -30,5 +30,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/editNote"
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>
