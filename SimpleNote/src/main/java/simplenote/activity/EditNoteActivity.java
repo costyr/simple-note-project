@@ -55,7 +55,10 @@ public class EditNoteActivity extends Activity {
 
         TextView lastModifiedView = (TextView)findViewById(R.id.lastModified);
 
-        lastModifiedView.setText(DateUtils.getRelativeDateTimeString(getApplicationContext(), lastModified, 5, 43200000, DateUtils.FORMAT_SHOW_DATE));
+        String lastModifiedText = getResources().getString(R.string.last_modified_label);
+        lastModifiedText += DateUtils.getRelativeDateTimeString(getApplicationContext(),
+          lastModified, 5, 43200000, DateUtils.FORMAT_SHOW_DATE);
+        lastModifiedView.setText(lastModifiedText);
     }
 
     @Override
