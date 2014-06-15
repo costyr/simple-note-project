@@ -94,11 +94,6 @@ public class MainActivity extends Activity {
 
                 Note note = mStringAdapter.getItem(position);
 
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + position + "  ListItem : " + note.toString(), Toast.LENGTH_LONG)
-                        .show();
-
                 mEditMessageIntent.putExtra(NOTE_TEXT, note.toString());
                 mEditMessageIntent.putExtra(NOTE_ID, note.getId());
                 mEditMessageIntent.putExtra(NOTE_INDEX, position);
@@ -151,6 +146,10 @@ public class MainActivity extends Activity {
                 Note note = mStringAdapter.getItem(index);
                 mStringAdapter.remove(note);
                 mNotesDb.DeleteNote(id);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                  getResources().getString(R.string.note_deleted_alert), Toast.LENGTH_LONG).show();
               }
               else if (op == MainActivity.NOTE_OP_EDIT)
               {

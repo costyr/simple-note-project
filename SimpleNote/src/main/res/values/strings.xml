@@ -10,5 +10,6 @@
     <string name="title_activity_display_message"></string>
     <string name="button_add">Add Note</string>
     <string name="last_modified_label">"Edited: "</string>
+    <string name="note_deleted_alert">Note moved to trash</string>
 
 </resources>
