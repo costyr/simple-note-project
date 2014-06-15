@@ -21,10 +21,12 @@ package simplenote.db;
  */
 public class Note {
 
-    public Note(Integer aId, String aNote)
+    public Note(Integer aId, String aTitle, String aNote, Long aLastModified)
     {
         mId = aId;
         mNote = aNote;
+        mTitle = aTitle;
+        mLastModified = aLastModified;
     }
 
     @Override
@@ -38,6 +40,12 @@ public class Note {
         return  mId;
     }
 
+    public String getTitle() { return mTitle; }
+
+    public Long getLastModified() { return mLastModified; }
+
     private Integer mId;
+    private String mTitle;
     private String mNote;
+    private Long mLastModified;
 }

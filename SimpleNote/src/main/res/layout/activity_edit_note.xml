@@ -36,6 +36,15 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
         android:layout_below="@+id/editNote"
+        android:layout_marginTop="15dp"
+        android:id="@+id/lineView" />
+
+    <TextView
+        android:id="@+id/lastModified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lineView"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="15dp"/>
 
 </RelativeLayout>

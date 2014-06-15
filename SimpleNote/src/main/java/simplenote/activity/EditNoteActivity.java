@@ -18,12 +18,14 @@ package simplenote.activity;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class EditNoteActivity extends Activity {
 
@@ -36,13 +38,24 @@ public class EditNoteActivity extends Activity {
         // Get the message from the intent
         Intent intent = getIntent();
         String noteContent = intent.getStringExtra(MainActivity.NOTE_TEXT);
+        String noteTitle = intent.getStringExtra(MainActivity.NOTE_TITLE);
 
         mId = intent.getIntExtra(MainActivity.NOTE_ID, 0);
         mIndex = intent.getIntExtra(MainActivity.NOTE_INDEX, 0);
 
+        EditText editNoteTitle = (EditText)findViewById(R.id.editNoteTitle);
+
+        editNoteTitle.setText(noteTitle);
+
         EditText editNote = (EditText)findViewById(R.id.editNote);
 
         editNote.setText(noteContent);
+
+        Long lastModified = intent.getLongExtra(MainActivity.NOTE_LAST_MODIFIED, 0);
+
+        TextView lastModifiedView = (TextView)findViewById(R.id.lastModified);
+
+        lastModifiedView.setText(DateUtils.getRelativeDateTimeString(getApplicationContext(), lastModified, 5, 43200000, DateUtils.FORMAT_SHOW_DATE));
     }
 
     @Override

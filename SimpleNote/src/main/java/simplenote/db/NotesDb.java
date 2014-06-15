@@ -36,14 +36,14 @@ public class NotesDb {
       mDb.close();
     */
 
-    public void AddNote(Integer aId, String aTitle, String aNote)
+    public void AddNote(Note aNote)
     {
         if (mDb != null) {
             ContentValues values = new ContentValues();
-            values.put(NotesDbOpenHelper.ID_COLUMN, aId.toString());
-            values.put(NotesDbOpenHelper.TITLE_COLUMN, aTitle);
-            values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote);
-            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, System.currentTimeMillis());
+            values.put(NotesDbOpenHelper.ID_COLUMN, aNote.getId().toString());
+            values.put(NotesDbOpenHelper.TITLE_COLUMN, aNote.getTitle());
+            values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote.toString());
+            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, aNote.getLastModified());
             values.put(NotesDbOpenHelper.DELETED_COLUMN, 0);
             mDb.insert(NotesDbOpenHelper.NOTES_TABLE_NAME, null, values);
             //String query = "INSERT INTO " + NOTES_TABLE_NAME + " VALUES (" + aTitle + ", " + aNote + ");";
@@ -68,6 +68,7 @@ public class NotesDb {
     {
         String query = "SELECT " +
           NotesDbOpenHelper.ID_COLUMN + ", " +
+          NotesDbOpenHelper.TITLE_COLUMN + ", " +
           NotesDbOpenHelper.NOTE_COLUMN + ", " +
           NotesDbOpenHelper.LAST_MODIFIED_COLUMN + ", "+
           NotesDbOpenHelper.DELETED_COLUMN +

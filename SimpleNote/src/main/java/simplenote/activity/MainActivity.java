@@ -36,7 +36,9 @@ import simplenote.db.NotesDb;
 
 public class MainActivity extends Activity {
 
+    public final static String NOTE_TITLE = "simplenote.activity.NOTE_TITLE";
     public final static String NOTE_TEXT = "simplenote.activity.NOTE_TEXT";
+    public final static String NOTE_LAST_MODIFIED = "simplenote.activity.NOTE_LAST_MODIFIED";
     public final static String NOTE_ID = "simplenote.activity.NOTE_ID";
     public final static String NOTE_INDEX = "simplenote.activity.NOTE_INDEX";
     public final static int NOTE_OPERATION = 1;
@@ -61,11 +63,13 @@ public class MainActivity extends Activity {
             if (notes.moveToFirst()) {
                 do {
                     Integer id = notes.getInt(0);
-                    String item = notes.getString(1);
-                    if (item != null) {
+                    String title = notes.getString(1);
+                    String note = notes.getString(2);
+                    Long lastModified = notes.getLong(3);
+                    if (note != null) {
                         if (id > mNextId)
                             mNextId = id;
-                        mStringAdapter.add(new Note(id, item));
+                        mStringAdapter.add(new Note(id, title, note, lastModified));
                     }
                 } while (notes.moveToNext());
             }
@@ -95,6 +99,8 @@ public class MainActivity extends Activity {
                 mEditMessageIntent.putExtra(NOTE_TEXT, note.toString());
                 mEditMessageIntent.putExtra(NOTE_ID, note.getId());
                 mEditMessageIntent.putExtra(NOTE_INDEX, position);
+                mEditMessageIntent.putExtra(NOTE_TITLE, note.getTitle());
+                mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, note.getLastModified());
                 startActivityForResult(mEditMessageIntent, NOTE_OPERATION);
 
             }
@@ -116,9 +122,10 @@ public class MainActivity extends Activity {
         editText.setText("");
 
         mNextId++;
-        mStringAdapter.add(new Note(mNextId, message));
+        Note newNote = new Note(mNextId, "", message, System.currentTimeMillis());
+        mStringAdapter.add(newNote);
 
-        mNotesDb.AddNote(mNextId, "note_" + mNextId, message);
+        mNotesDb.AddNote(newNote);
 
         InputMethodManager imm = (InputMethodManager)getSystemService(
                 Context.INPUT_METHOD_SERVICE);
