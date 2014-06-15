@@ -29,6 +29,16 @@ public class Note {
         mLastModified = aLastModified;
     }
 
+    public void setTitle(String aTitle)
+    {
+      mTitle = aTitle;
+    }
+
+    public void setNote(String aNote)
+    {
+      mNote = aNote;
+    }
+
     @Override
     public String toString()
     {

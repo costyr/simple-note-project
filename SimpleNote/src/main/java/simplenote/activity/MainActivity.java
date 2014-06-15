@@ -41,7 +41,10 @@ public class MainActivity extends Activity {
     public final static String NOTE_LAST_MODIFIED = "simplenote.activity.NOTE_LAST_MODIFIED";
     public final static String NOTE_ID = "simplenote.activity.NOTE_ID";
     public final static String NOTE_INDEX = "simplenote.activity.NOTE_INDEX";
-    public final static int NOTE_OPERATION = 1;
+    public final static String NOTE_OP = "simplenote.activity.NOTE_OP";
+    public final static int EDIT_NOTE_REQUEST = 1;
+    public final static int NOTE_OP_EDIT = 2;
+    public final static int NOTE_OP_DELETE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +104,7 @@ public class MainActivity extends Activity {
                 mEditMessageIntent.putExtra(NOTE_INDEX, position);
                 mEditMessageIntent.putExtra(NOTE_TITLE, note.getTitle());
                 mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, note.getLastModified());
-                startActivityForResult(mEditMessageIntent, NOTE_OPERATION);
+                startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
 
             }
         });
@@ -135,16 +138,33 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data)
     {
-        if (requestCode == NOTE_OPERATION)
+        if (requestCode == EDIT_NOTE_REQUEST)
         {
             if (resultCode == Activity.RESULT_OK)
             {
               Integer id = data.getIntExtra(MainActivity.NOTE_ID, 0);
               Integer index = data.getIntExtra(MainActivity.NOTE_INDEX, 0);
 
-              Note note = mStringAdapter.getItem(index);
-              mStringAdapter.remove(note);
-              mNotesDb.DeleteNote(id);
+              Integer op = data.getIntExtra(MainActivity.NOTE_OP, 0);
+              if (op == MainActivity.NOTE_OP_DELETE)
+              {
+                Note note = mStringAdapter.getItem(index);
+                mStringAdapter.remove(note);
+                mNotesDb.DeleteNote(id);
+              }
+              else if (op == MainActivity.NOTE_OP_EDIT)
+              {
+                Note note = mStringAdapter.getItem(index);
+                String newNoteTitle = data.getStringExtra(MainActivity.NOTE_TITLE);
+                String newNoteText = data.getStringExtra(MainActivity.NOTE_TEXT);
+
+                note.setTitle(newNoteTitle);
+                note.setNote(newNoteText);
+
+                mStringAdapter.notifyDataSetChanged();
+
+                mNotesDb.UpdateNote(id, newNoteTitle, newNoteText);
+              }
             }
         }
     }
