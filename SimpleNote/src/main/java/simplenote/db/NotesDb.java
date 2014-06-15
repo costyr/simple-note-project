@@ -51,16 +51,16 @@ public class NotesDb {
         }
     }
 
-    public void UpdateNote(Integer aId, String aTitle, String aNote)
+    public void UpdateNote(Note aNote)
     {
         if (mDb != null) {
             ContentValues values = new ContentValues();
 
-            values.put(NotesDbOpenHelper.TITLE_COLUMN, aTitle);
-            values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote);
-            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, System.currentTimeMillis());
+            values.put(NotesDbOpenHelper.TITLE_COLUMN, aNote.getTitle());
+            values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote.toString());
+            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, aNote.getLastModified());
 
-            String cond = NotesDbOpenHelper.ID_COLUMN + "=" + aId;
+            String cond = NotesDbOpenHelper.ID_COLUMN + "=" + aNote.getId();
             mDb.update(NotesDbOpenHelper.NOTES_TABLE_NAME, values, cond, null);
         }
     }

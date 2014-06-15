@@ -159,10 +159,11 @@ public class MainActivity extends Activity {
 
                 note.setTitle(newNoteTitle);
                 note.setNote(newNoteText);
+                note.setLastModified(System.currentTimeMillis());
 
                 mStringAdapter.notifyDataSetChanged();
 
-                mNotesDb.UpdateNote(id, newNoteTitle, newNoteText);
+                mNotesDb.UpdateNote(note);
               }
             }
         }

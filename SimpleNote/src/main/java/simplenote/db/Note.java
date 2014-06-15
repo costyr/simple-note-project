@@ -39,6 +39,11 @@ public class Note {
       mNote = aNote;
     }
 
+    public void setLastModified(Long aLastModified)
+    {
+      mLastModified = aLastModified;
+    }
+
     @Override
     public String toString()
     {
