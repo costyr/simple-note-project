@@ -24,7 +24,6 @@ import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class EditNoteActivity extends Activity {
 
