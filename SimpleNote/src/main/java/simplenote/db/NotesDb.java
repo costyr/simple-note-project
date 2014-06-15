@@ -43,6 +43,7 @@ public class NotesDb {
             values.put(NotesDbOpenHelper.ID_COLUMN, aId.toString());
             values.put(NotesDbOpenHelper.TITLE_COLUMN, aTitle);
             values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote);
+            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, System.currentTimeMillis());
             values.put(NotesDbOpenHelper.DELETED_COLUMN, 0);
             mDb.insert(NotesDbOpenHelper.NOTES_TABLE_NAME, null, values);
             //String query = "INSERT INTO " + NOTES_TABLE_NAME + " VALUES (" + aTitle + ", " + aNote + ");";
@@ -54,6 +55,8 @@ public class NotesDb {
     {
         if (mDb != null) {
             ContentValues values = new ContentValues();
+
+            values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, System.currentTimeMillis());
             values.put(NotesDbOpenHelper.DELETED_COLUMN, 1);
 
             String cond = NotesDbOpenHelper.ID_COLUMN + "=" + aId;
@@ -63,11 +66,15 @@ public class NotesDb {
 
     public Cursor GetNotes()
     {
-        String query = "SELECT " + NotesDbOpenHelper.ID_COLUMN + ", " + NotesDbOpenHelper.NOTE_COLUMN + ", "+ NotesDbOpenHelper.DELETED_COLUMN + " FROM " + NotesDbOpenHelper.NOTES_TABLE_NAME +
+        String query = "SELECT " +
+          NotesDbOpenHelper.ID_COLUMN + ", " +
+          NotesDbOpenHelper.NOTE_COLUMN + ", " +
+          NotesDbOpenHelper.LAST_MODIFIED_COLUMN + ", "+
+          NotesDbOpenHelper.DELETED_COLUMN +
+                " FROM " + NotesDbOpenHelper.NOTES_TABLE_NAME +
                 " WHERE " + NotesDbOpenHelper.DELETED_COLUMN + "=0;";
         if (mDb != null) {
-            Cursor result = mDb.rawQuery(query, null);
-            return result;
+            return mDb.rawQuery(query, null);
         }
 
         else
