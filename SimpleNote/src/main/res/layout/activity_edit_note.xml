@@ -8,9 +8,27 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".EditNoteActivity">
 
-    <TextView
+    <LinearLayout
+        android:focusable="true" android:focusableInTouchMode="true"
+        android:layout_width="0px" android:layout_height="0px"/>
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/hello_world"
+        android:id="@+id/editNoteTitle"
+        android:background="@drawable/edit_bg"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editNote"
+        android:background="@drawable/edit_bg"
+        android:layout_below="@+id/editNoteTitle"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp" />
 
 </RelativeLayout>

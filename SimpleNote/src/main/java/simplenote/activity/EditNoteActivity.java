@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class EditNoteActivity extends Activity {
@@ -31,21 +32,18 @@ public class EditNoteActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_note);
 
         // Get the message from the intent
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.NOTE_TEXT);
+        String noteContent = intent.getStringExtra(MainActivity.NOTE_TEXT);
 
         mId = intent.getIntExtra(MainActivity.NOTE_ID, 0);
         mIndex = intent.getIntExtra(MainActivity.NOTE_INDEX, 0);
 
-        // Create the text view
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
+        EditText editNote = (EditText)findViewById(R.id.editNote);
 
-        // Set the text view as the activity layout
-        setContentView(textView);
+        editNote.setText(noteContent);
     }
 
     @Override
