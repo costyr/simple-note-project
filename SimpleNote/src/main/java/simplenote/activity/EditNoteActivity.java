@@ -112,7 +112,8 @@ public class EditNoteActivity extends Activity {
         String newNoteTitle = editNoteTitle.getText().toString();
 
         boolean changed = false;
-        if ((newNoteTitle != mNoteTitle) || (newNoteContent != mNoteContent))
+        if (((newNoteTitle != null) && !newNoteTitle.equals(mNoteTitle)) ||
+            (!newNoteContent.equals(mNoteContent)))
             changed = true;
 
         if (changed) {
