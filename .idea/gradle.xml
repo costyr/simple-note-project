@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="D:\Work\Android\SimpleNoteProject" />
-            <option value="D:\Work\Android\SimpleNoteProject\SimpleNote" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/SimpleNote" />
           </set>
         </option>
       </GradleProjectSettings>

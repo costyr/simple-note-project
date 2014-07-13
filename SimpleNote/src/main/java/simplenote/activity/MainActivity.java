@@ -20,10 +20,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.content.Intent;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -34,7 +37,8 @@ import android.widget.Toast;
 import simplenote.db.Note;
 import simplenote.db.NotesDb;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity
+                          implements AbsListView.OnScrollListener {
 
     public final static String NOTE_TITLE = "simplenote.activity.NOTE_TITLE";
     public final static String NOTE_TEXT = "simplenote.activity.NOTE_TEXT";
@@ -53,7 +57,12 @@ public class MainActivity extends Activity {
 
         mEditMessageIntent = new Intent(this, EditNoteActivity.class);
 
-        ListView myList = (ListView)findViewById(R.id.listView);
+        mList = (ListView)findViewById(R.id.listView);
+        View header = getLayoutInflater().inflate(R.layout.header, mList, false);
+        mPlaceholderView = header.findViewById(R.id.placeholder);
+        mQuickReturnView = findViewById(R.id.sticky);
+
+        mList.addHeaderView(header);
 
         mStringAdapter = new ArrayAdapter<Note>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
 
@@ -78,9 +87,9 @@ public class MainActivity extends Activity {
             }
         }
 
-        myList.setAdapter(mStringAdapter);
+        mList.setAdapter(mStringAdapter);
 
-        myList.setOnItemClickListener(new OnItemClickListener() {
+        mList.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -103,6 +112,18 @@ public class MainActivity extends Activity {
 
             }
         });
+
+
+        mList.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mQuickReturnHeight = mQuickReturnView.getHeight();
+                        computeScrollY();
+                    }
+                });
+
+        mList.setOnScrollListener(this);
     }
 
 
@@ -169,6 +190,97 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public void onScroll (AbsListView view, int firstVisibleItem, int visibleItemCount,
+                          int totalItemCount)
+    {
+        int scrollY = Math.min(mCalculatedHeight - mList.getHeight(), getScrollY());
+
+        int placeholderTop = mPlaceholderView.getTop();
+
+        int rawY = placeholderTop - scrollY;
+        int translationY = 0;
+
+        String message = String.format("placeholderTop: %d, scrollY: %d, rawY: %d", placeholderTop, scrollY, rawY);
+
+        Log.v("QuickReturnFragment ", message);
+
+        switch (mState) {
+            case STATE_OFFSCREEN:
+                if (rawY <= mMinRawY) {
+                    mMinRawY = rawY;
+                } else {
+                    mState = STATE_RETURNING;
+                }
+                translationY = rawY;
+                break;
+
+            case STATE_ONSCREEN:
+                if (rawY < -mQuickReturnHeight) {
+                    mState = STATE_OFFSCREEN;
+                    mMinRawY = rawY;
+                }
+                translationY = rawY;
+                break;
+
+            case STATE_RETURNING:
+                translationY = (rawY - mMinRawY) - mQuickReturnHeight;
+
+                message = String.format("Returning: translationY: %d, quickReturnHeight: %d, minRawY: %d", translationY, mQuickReturnHeight, mMinRawY);
+
+                Log.v("QuickReturnFragment ", message);
+                if (translationY > 0) {
+                    translationY = 0;
+                    mMinRawY = rawY - mQuickReturnHeight;
+                }
+
+                if (rawY > 0) {
+                    mState = STATE_ONSCREEN;
+                    translationY = rawY;
+                }
+
+                if (translationY < -mQuickReturnHeight) {
+                    mState = STATE_OFFSCREEN;
+                    mMinRawY = rawY;
+                }
+                break;
+        }
+        mQuickReturnView.setTranslationY(translationY);
+    }
+
+    @Override
+    public void onScrollStateChanged (AbsListView view, int scrollState)
+    {
+
+    }
+
+    private void computeScrollY() {
+        mCalculatedHeight = 0;
+        int itemCount = mList.getAdapter().getCount();
+        if (mItemOffsetY == null) {
+            mItemOffsetY = new int[itemCount];
+        }
+        for (int i = 0; i < itemCount; ++i) {
+            View view = mList.getAdapter().getView(i, null, mList);
+            view.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            mItemOffsetY[i] = mCalculatedHeight;
+            mCalculatedHeight += view.getMeasuredHeight();
+        }
+        mIsScrollComputed = true;
+    }
+
+    private int getScrollY() {
+        if (!mIsScrollComputed) {
+            return 0;
+        }
+        int pos = mList.getFirstVisiblePosition();
+        View view = mList.getChildAt(0);
+        int nItemY = view.getTop();
+        return (mItemOffsetY[pos] - nItemY);
+    }
+
     private ArrayAdapter<Note> mStringAdapter;
 
     private Intent mEditMessageIntent;
@@ -176,4 +288,20 @@ public class MainActivity extends Activity {
     private NotesDb mNotesDb;
 
     private Integer mNextId;
+
+    private ListView mList;
+
+    private static final int STATE_ONSCREEN = 0;
+    private static final int STATE_OFFSCREEN = 1;
+    private static final int STATE_RETURNING = 2;
+
+    private int mMinRawY = 0;
+    private int mState = STATE_ONSCREEN;
+
+    private View mPlaceholderView;
+    private View mQuickReturnView;
+    private int mQuickReturnHeight;
+    private boolean mIsScrollComputed;
+    private int mCalculatedHeight;
+    private int mItemOffsetY[];
 }
