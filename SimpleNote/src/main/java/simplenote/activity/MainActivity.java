@@ -95,17 +95,11 @@ public class MainActivity extends Activity
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                // ListView Clicked item index
-                //int itemPosition = position;
-
-                // ListView Clicked item value
-                //String itemValue = ((TextView)view).getText().toString();
-
-                Note note = mStringAdapter.getItem(position);
+                Note note = mStringAdapter.getItem(position - 1);
 
                 mEditMessageIntent.putExtra(NOTE_TEXT, note.toString());
                 mEditMessageIntent.putExtra(NOTE_ID, note.getId());
-                mEditMessageIntent.putExtra(NOTE_INDEX, position);
+                mEditMessageIntent.putExtra(NOTE_INDEX, position - 1);
                 mEditMessageIntent.putExtra(NOTE_TITLE, note.getTitle());
                 mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, note.getLastModified());
                 startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
@@ -194,14 +188,17 @@ public class MainActivity extends Activity
     public void onScroll (AbsListView view, int firstVisibleItem, int visibleItemCount,
                           int totalItemCount)
     {
-        int scrollY = Math.min(mCalculatedHeight - mList.getHeight(), getScrollY());
+        int calculatedHeight = mCalculatedHeight - mList.getHeight();
+        if (calculatedHeight < 0)
+            calculatedHeight = 0;
+        int scrollY = Math.min(calculatedHeight, getScrollY());
 
         int placeholderTop = mPlaceholderView.getTop();
 
         int rawY = placeholderTop - scrollY;
         int translationY = 0;
 
-        String message = String.format("placeholderTop: %d, scrollY: %d, rawY: %d", placeholderTop, scrollY, rawY);
+        String message = String.format("calculatedHeight: %d, listHeight: %d, placeholderTop: %d, scrollY: %d, rawY: %d", mCalculatedHeight, mList.getHeight(), placeholderTop, scrollY, rawY);
 
         Log.v("QuickReturnFragment ", message);
 
@@ -257,7 +254,7 @@ public class MainActivity extends Activity
     private void computeScrollY() {
         mCalculatedHeight = 0;
         int itemCount = mList.getAdapter().getCount();
-        if (mItemOffsetY == null) {
+        if ((mItemOffsetY == null) || (itemCount != mItemOffsetY.length)) {
             mItemOffsetY = new int[itemCount];
         }
         for (int i = 0; i < itemCount; ++i) {
