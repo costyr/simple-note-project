@@ -87,7 +87,8 @@ public class NotesDb {
           NotesDbOpenHelper.LAST_MODIFIED_COLUMN + ", "+
           NotesDbOpenHelper.DELETED_COLUMN +
                 " FROM " + NotesDbOpenHelper.NOTES_TABLE_NAME +
-                " WHERE " + NotesDbOpenHelper.DELETED_COLUMN + "=0;";
+                " WHERE " + NotesDbOpenHelper.DELETED_COLUMN + "=0" +
+                " ORDER BY " + NotesDbOpenHelper.LAST_MODIFIED_COLUMN + " DESC;";
         if (mDb != null) {
             return mDb.rawQuery(query, null);
         }

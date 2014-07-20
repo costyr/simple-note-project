@@ -136,7 +136,7 @@ public class MainActivity extends Activity
 
         mNextId++;
         Note newNote = new Note(mNextId, "", message, System.currentTimeMillis());
-        mStringAdapter.add(newNote);
+        mStringAdapter.insert(newNote, 0);
 
         mNotesDb.AddNote(newNote);
 
@@ -275,6 +275,8 @@ public class MainActivity extends Activity
         int pos = mList.getFirstVisiblePosition();
         View view = mList.getChildAt(0);
         int nItemY = view.getTop();
+        String message = String.format("nItemY: %d, firstVisible: %d", nItemY, mItemOffsetY[pos]);
+        Log.v("getScrollY ", message);
         return (mItemOffsetY[pos] - nItemY);
     }
 
