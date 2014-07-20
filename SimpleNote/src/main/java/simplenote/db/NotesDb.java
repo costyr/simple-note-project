@@ -43,6 +43,7 @@ public class NotesDb {
             values.put(NotesDbOpenHelper.ID_COLUMN, aNote.getId().toString());
             values.put(NotesDbOpenHelper.TITLE_COLUMN, aNote.getTitle());
             values.put(NotesDbOpenHelper.NOTE_COLUMN, aNote.toString());
+            values.put(NotesDbOpenHelper.CREATED_COLUMN, aNote.getCreated());
             values.put(NotesDbOpenHelper.LAST_MODIFIED_COLUMN, aNote.getLastModified());
             values.put(NotesDbOpenHelper.DELETED_COLUMN, 0);
             mDb.insert(NotesDbOpenHelper.NOTES_TABLE_NAME, null, values);
@@ -84,11 +85,12 @@ public class NotesDb {
           NotesDbOpenHelper.ID_COLUMN + ", " +
           NotesDbOpenHelper.TITLE_COLUMN + ", " +
           NotesDbOpenHelper.NOTE_COLUMN + ", " +
+          NotesDbOpenHelper.CREATED_COLUMN + ", " +
           NotesDbOpenHelper.LAST_MODIFIED_COLUMN + ", "+
           NotesDbOpenHelper.DELETED_COLUMN +
                 " FROM " + NotesDbOpenHelper.NOTES_TABLE_NAME +
                 " WHERE " + NotesDbOpenHelper.DELETED_COLUMN + "=0" +
-                " ORDER BY " + NotesDbOpenHelper.LAST_MODIFIED_COLUMN + " DESC;";
+                " ORDER BY " + NotesDbOpenHelper.CREATED_COLUMN + " DESC;";
         if (mDb != null) {
             return mDb.rawQuery(query, null);
         }

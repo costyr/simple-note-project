@@ -26,7 +26,7 @@ import android.util.Log;
  */
 public class NotesDbOpenHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "NotesDb";
     public static final String NOTES_TABLE_NAME = "notes";
     public static final String ID_COLUMN = "ID";
@@ -34,11 +34,13 @@ public class NotesDbOpenHelper extends SQLiteOpenHelper {
     public static final String NOTE_COLUMN = "Note";
     public static final String DELETED_COLUMN = "Deleted";
     public static final String LAST_MODIFIED_COLUMN = "LastModified";
+    public static final String CREATED_COLUMN = "Created";
     private static final String NOTES_TABLE_CREATE =
             "CREATE TABLE " + NOTES_TABLE_NAME + " (" +
                     ID_COLUMN + " INT PRIMARY KEY, " +
                     TITLE_COLUMN + " TEXT, " +
                     NOTE_COLUMN + " TEXT, " +
+                    CREATED_COLUMN + " INT," +
                     LAST_MODIFIED_COLUMN + " INT, " +
                     DELETED_COLUMN + " INT);";
 
