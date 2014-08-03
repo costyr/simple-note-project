@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white">
 
-        <EditText android:id="@+id/edit_message"
+        <simplenote.util.QuickEditText android:id="@+id/edit_message"
             android:maxLines = "10"
             android:layout_width="0dip"
             android:layout_weight="1.0"
@@ -33,7 +33,8 @@
             android:layout_gravity="fill_vertical"
             android:layout_height="wrap_content"
             android:hint="@string/edit_message"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:imeOptions="actionDone"/>
 
         <Button   android:layout_width="wrap_content"
             android:layout_height="wrap_content"

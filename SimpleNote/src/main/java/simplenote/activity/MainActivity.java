@@ -21,10 +21,12 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.content.Intent;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
@@ -32,10 +34,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import simplenote.db.Note;
 import simplenote.db.NotesDb;
+import simplenote.util.QuickEditText;
 
 public class MainActivity extends Activity
                           implements AbsListView.OnScrollListener {
@@ -61,6 +66,30 @@ public class MainActivity extends Activity
         View header = getLayoutInflater().inflate(R.layout.header, mList, false);
         mPlaceholderView = header.findViewById(R.id.placeholder);
         mQuickReturnView = findViewById(R.id.sticky);
+
+        EditText quickNoteEdit = (EditText)findViewById(R.id.edit_message);
+
+        quickNoteEdit.setOnEditorActionListener(new OnEditorActionListener() {
+
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    String note = v.getText().toString();
+
+                    if (!note.isEmpty()) {
+                        AddNote("", note);
+                        v.setText("");
+                    }
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         mList.addHeaderView(header);
 
@@ -129,20 +158,22 @@ public class MainActivity extends Activity
     }
 
     public void addToList(View view) {
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
 
-        editText.setText("");
+        mEditMessageIntent.putExtra(NOTE_INDEX, - 1);
+        mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, System.currentTimeMillis());
+        startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
+    }
 
-        mNextId++;
-        Note newNote = new Note(mNextId, "", message, System.currentTimeMillis());
-        mStringAdapter.insert(newNote, 0);
+    private void AddNote(String aTitle, String aNote)
+    {
+        if (!aNote.isEmpty()) {
 
-        mNotesDb.AddNote(newNote);
+            mNextId++;
+            Note newNote = new Note(mNextId, aTitle, aNote, System.currentTimeMillis());
+            mStringAdapter.insert(newNote, 0);
 
-        InputMethodManager imm = (InputMethodManager)getSystemService(
-                Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            mNotesDb.AddNote(newNote);
+        }
     }
 
     @Override
@@ -168,17 +199,26 @@ public class MainActivity extends Activity
               }
               else if (op == MainActivity.NOTE_OP_EDIT)
               {
-                Note note = mStringAdapter.getItem(index);
                 String newNoteTitle = data.getStringExtra(MainActivity.NOTE_TITLE);
                 String newNoteText = data.getStringExtra(MainActivity.NOTE_TEXT);
 
-                note.setTitle(newNoteTitle);
-                note.setNote(newNoteText);
-                note.setLastModified(System.currentTimeMillis());
+                if (index == -1) {
+                    if (newNoteText.isEmpty())
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.empty_note_discarded_alert), Toast.LENGTH_LONG).show();
+                    else
+                      AddNote(newNoteTitle, newNoteText);
+                } else {
+                    Note note = mStringAdapter.getItem(index);
 
-                mStringAdapter.notifyDataSetChanged();
+                    note.setTitle(newNoteTitle);
+                    note.setNote(newNoteText);
+                    note.setLastModified(System.currentTimeMillis());
 
-                mNotesDb.UpdateNote(note);
+                    mStringAdapter.notifyDataSetChanged();
+
+                    mNotesDb.UpdateNote(note);
+                }
               }
             }
         }
