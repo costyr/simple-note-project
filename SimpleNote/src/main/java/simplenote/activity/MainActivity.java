@@ -40,7 +40,6 @@ import android.widget.Toast;
 
 import simplenote.db.Note;
 import simplenote.db.NotesDb;
-import simplenote.util.QuickEditText;
 
 public class MainActivity extends Activity
                           implements AbsListView.OnScrollListener {
@@ -159,6 +158,8 @@ public class MainActivity extends Activity
 
     public void addToList(View view) {
 
+        mEditMessageIntent.putExtra(NOTE_TITLE, "");
+        mEditMessageIntent.putExtra(NOTE_TEXT, "");
         mEditMessageIntent.putExtra(NOTE_INDEX, - 1);
         mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, System.currentTimeMillis());
         startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
@@ -203,10 +204,7 @@ public class MainActivity extends Activity
                 String newNoteText = data.getStringExtra(MainActivity.NOTE_TEXT);
 
                 if (index == -1) {
-                    if (newNoteText.isEmpty())
-                        Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.empty_note_discarded_alert), Toast.LENGTH_LONG).show();
-                    else
+                    if (!newNoteTitle.isEmpty() || !newNoteText.isEmpty())
                       AddNote(newNoteTitle, newNoteText);
                 } else {
                     Note note = mStringAdapter.getItem(index);

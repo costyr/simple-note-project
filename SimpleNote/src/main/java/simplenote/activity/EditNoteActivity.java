@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EditNoteActivity extends Activity {
 
@@ -118,7 +119,7 @@ public class EditNoteActivity extends Activity {
 
         boolean changed = false;
         if (((newNoteTitle != null) && !newNoteTitle.equals(mNoteTitle)) ||
-            (!newNoteContent.equals(mNoteContent)))
+                (!newNoteContent.equals(mNoteContent)))
             changed = true;
 
         if (changed) {
@@ -132,8 +133,15 @@ public class EditNoteActivity extends Activity {
 
             setResult(Activity.RESULT_OK, ret);
         }
-        else
+        else {
+            if (mIndex == -1)
+            {
+                Toast.makeText(getApplicationContext(),
+                  getResources().getString(R.string.empty_note_discarded_alert), Toast.LENGTH_LONG).show();
+            }
+
             setResult(Activity.RESULT_CANCELED, null);
+        }
         finish();
     }
 
