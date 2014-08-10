@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/editNoteTitle"
         android:background="@drawable/edit_bg"
-        android:hint="@string/hint_title" />
+        android:hint="@string/hint_title"
+        android:textSize="@dimen/font_size"/>
 
     <EditText
         android:layout_width="fill_parent"
@@ -28,7 +29,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="5dp"
-        android:hint="@string/hint_note"/>
+        android:hint="@string/hint_note"
+        android:textSize="@dimen/font_size"/>
 
     <View
         android:layout_width="match_parent"

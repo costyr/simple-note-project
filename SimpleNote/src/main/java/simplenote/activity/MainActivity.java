@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import simplenote.db.Note;
 import simplenote.db.NotesDb;
+import simplenote.util.NotesAdapter;
 
 public class MainActivity extends Activity
                           implements AbsListView.OnScrollListener {
@@ -92,7 +93,7 @@ public class MainActivity extends Activity
 
         mList.addHeaderView(header);
 
-        mStringAdapter = new ArrayAdapter<Note>(this, android.R.layout.simple_list_item_1, android.R.id.text1);
+        mStringAdapter = new NotesAdapter(this, android.R.layout.simple_list_item_1);
 
         mNotesDb = new NotesDb(this);
 
@@ -156,7 +157,7 @@ public class MainActivity extends Activity
         return true;
     }
 
-    public void addToList(View view) {
+    public void onNewNote(View view) {
 
         mEditMessageIntent.putExtra(NOTE_TITLE, "");
         mEditMessageIntent.putExtra(NOTE_TEXT, "");

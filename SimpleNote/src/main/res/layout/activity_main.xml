@@ -15,7 +15,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/listView"
-            android:background="@android:color/white" />
+            android:background="@android:color/white"
+            android:headerDividersEnabled="false"/>
 
     </LinearLayout>
 
@@ -34,12 +35,13 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_message"
             android:inputType="textMultiLine"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:textSize="@dimen/font_size"/>
 
         <Button   android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_add"
-            android:onClick="addToList"
+            android:onClick="onNewNote"
             android:singleLine="true" />
 
     </LinearLayout>
