@@ -31,6 +31,7 @@ public class QuickEditText extends EditText
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs)
     {
+        // A little trick that allow Done action on a multiline edit.
         InputConnection conn = super.onCreateInputConnection(outAttrs);
         outAttrs.imeOptions &= ~EditorInfo.IME_FLAG_NO_ENTER_ACTION;
         return conn;

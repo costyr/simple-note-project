@@ -20,15 +20,15 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/sticky"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:background="@android:color/white">
 
         <simplenote.util.QuickEditText android:id="@+id/edit_message"
             android:maxLines = "10"
-            android:layout_width="0dip"
+            android:layout_width="fill_parent"
             android:layout_weight="1.0"
             android:gravity="left"
             android:layout_gravity="fill_vertical"
@@ -38,12 +38,16 @@
             android:imeOptions="actionDone"
             android:textSize="@dimen/font_size"/>
 
-        <Button   android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/new_note"
+            android:layout_below="@+id/edit_message"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:text="@string/button_add"
             android:onClick="onNewNote"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="@dimen/tiny_font_size"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>

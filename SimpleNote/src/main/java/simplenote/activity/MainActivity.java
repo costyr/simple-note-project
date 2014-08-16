@@ -20,20 +20,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.content.Intent;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -67,7 +72,36 @@ public class MainActivity extends Activity
         mPlaceholderView = header.findViewById(R.id.placeholder);
         mQuickReturnView = findViewById(R.id.sticky);
 
-        EditText quickNoteEdit = (EditText)findViewById(R.id.edit_message);
+        final Button addNote = (Button)findViewById(R.id.new_note);
+        final EditText quickNoteEdit = (EditText)findViewById(R.id.edit_message);
+        quickNoteEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                    if ((charSequence != null) && !charSequence.toString().isEmpty()) {
+                        addNote.setVisibility(View.GONE);
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.MATCH_PARENT);
+                        quickNoteEdit.setLayoutParams(params);
+                    }
+                    else {
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT);
+                        quickNoteEdit.setLayoutParams(params);
+                        addNote.setVisibility(View.VISIBLE);
+                    }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         quickNoteEdit.setOnEditorActionListener(new OnEditorActionListener() {
 
