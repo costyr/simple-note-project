@@ -3,9 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="#E6E6E6">
 
        <LinearLayout
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,17 +18,28 @@
             android:layout_height="wrap_content"
             android:id="@+id/listView"
             android:background="@android:color/white"
-            android:headerDividersEnabled="false"/>
+            android:headerDividersEnabled="false"
+            android:divider="#E6E6E6"
+            android:dividerHeight="5sp"/>
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/sticky"
-        android:layout_width="fill_parent"
-        android:layout_height="70dp"
-        android:background="@android:color/white">
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingTop="7sp">
 
-        <simplenote.util.QuickEditText android:id="@+id/edit_message"
+        <RelativeLayout
+            android:id="@+id/controls"
+            android:layout_width="match_parent"
+            android:layout_height="73dp"
+            android:background="@android:color/white"/>
+
+        <simplenote.util.QuickEditText
+            android:id="@+id/edit_message"
             android:maxLines = "10"
             android:layout_width="fill_parent"
             android:layout_weight="1.0"
@@ -36,17 +49,36 @@
             android:hint="@string/edit_message"
             android:inputType="textMultiLine"
             android:imeOptions="actionDone"
-            android:textSize="@dimen/font_size"/>
+            android:textSize="@dimen/font_size"
+            android:background="@android:color/white"
+            android:padding="5sp"/>
+
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="1sp"
+        android:background="#D6D6D6"
+        android:layout_below="@+id/edit_message"
+        android:id="@+id/lineView" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@android:color/white"
+            android:layout_below="@+id/lineView">
 
         <Button
             android:id="@+id/new_note"
-            android:layout_below="@+id/edit_message"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_marginLeft="7dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/button_add"
             android:onClick="onNewNote"
             android:singleLine="true"
-            android:textSize="@dimen/tiny_font_size"/>
+            android:textSize="@dimen/small_font_size"
+            android:background="@android:color/white"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

@@ -7,7 +7,7 @@
     <string name="edit_message">Enter a quick note</string>
     <string name="button_send">Send</string>
     <string name="title_activity_display_message"></string>
-    <string name="button_add">+</string>
+    <string name="button_add">New Note</string>
     <string name="last_modified_label">"Edited: "</string>
     <string name="note_deleted_alert">Note moved to trash</string>
     <string name="empty_note_discarded_alert">Empty note discarded</string>
