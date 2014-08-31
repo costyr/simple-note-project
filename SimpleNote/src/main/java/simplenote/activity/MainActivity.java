@@ -315,6 +315,10 @@ public class MainActivity extends Activity
                 }
                 break;
         }
+
+        message = String.format("translationY: %d", translationY);
+
+        Log.v("QuickReturnFragment ", message);
         mQuickReturnView.setTranslationY(translationY);
     }
 
@@ -337,6 +341,7 @@ public class MainActivity extends Activity
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             mItemOffsetY[i] = mCalculatedHeight;
             mCalculatedHeight += view.getMeasuredHeight();
+            mCalculatedHeight += mList.getDividerHeight();
         }
         mIsScrollComputed = true;
     }
@@ -348,7 +353,7 @@ public class MainActivity extends Activity
         int pos = mList.getFirstVisiblePosition();
         View view = mList.getChildAt(0);
         int nItemY = view.getTop();
-        String message = String.format("nItemY: %d, firstVisible: %d", nItemY, mItemOffsetY[pos]);
+        String message = String.format("first visible pos: %d, nItemY: %d, firstVisible: %d", pos, nItemY, mItemOffsetY[pos]);
         Log.v("getScrollY ", message);
         return (mItemOffsetY[pos] - nItemY);
     }
