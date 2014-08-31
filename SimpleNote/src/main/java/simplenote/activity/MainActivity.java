@@ -16,7 +16,7 @@
 
 package simplenote.activity;
 
-import android.content.Context;
+//import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
@@ -30,7 +30,7 @@ import android.content.Intent;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
+//import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -116,9 +116,9 @@ public class MainActivity extends Activity
                         v.setText("");
                     }
 
-                    InputMethodManager imm = (InputMethodManager) getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    //InputMethodManager imm = (InputMethodManager) getSystemService(
+                    //       Context.INPUT_METHOD_SERVICE);
+                    //imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     return true;
                 }
                 return false;
