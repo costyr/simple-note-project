@@ -69,6 +69,7 @@ public class MainActivity extends Activity
 
         mList = (ListView)findViewById(R.id.listView);
         View header = getLayoutInflater().inflate(R.layout.header, mList, false);
+        View footer = getLayoutInflater().inflate(R.layout.footer, mList, false);
         mPlaceholderView = header.findViewById(R.id.placeholder);
         mQuickReturnView = findViewById(R.id.sticky);
 
@@ -86,11 +87,13 @@ public class MainActivity extends Activity
                         addNote.setVisibility(View.GONE);
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.MATCH_PARENT);
+                        params.setMargins(0, 2, 0, 2);
                         quickNoteEdit.setLayoutParams(params);
                     }
                     else {
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(0, 2, 0, 0);
                         quickNoteEdit.setLayoutParams(params);
                         addNote.setVisibility(View.VISIBLE);
                     }
@@ -126,6 +129,7 @@ public class MainActivity extends Activity
         });
 
         mList.addHeaderView(header);
+        mList.addFooterView(footer);
 
         mStringAdapter = new NotesAdapter(this, android.R.layout.simple_list_item_1);
 
@@ -157,15 +161,17 @@ public class MainActivity extends Activity
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                if ((position > 0) && (position < mStringAdapter.getCount())) {
 
-                Note note = mStringAdapter.getItem(position - 1);
+                    Note note = mStringAdapter.getItem(position - 1);
 
-                mEditMessageIntent.putExtra(NOTE_TEXT, note.toString());
-                mEditMessageIntent.putExtra(NOTE_ID, note.getId());
-                mEditMessageIntent.putExtra(NOTE_INDEX, position - 1);
-                mEditMessageIntent.putExtra(NOTE_TITLE, note.getTitle());
-                mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, note.getLastModified());
-                startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
+                    mEditMessageIntent.putExtra(NOTE_TEXT, note.toString());
+                    mEditMessageIntent.putExtra(NOTE_ID, note.getId());
+                    mEditMessageIntent.putExtra(NOTE_INDEX, position - 1);
+                    mEditMessageIntent.putExtra(NOTE_TITLE, note.getTitle());
+                    mEditMessageIntent.putExtra(NOTE_LAST_MODIFIED, note.getLastModified());
+                    startActivityForResult(mEditMessageIntent, EDIT_NOTE_REQUEST);
+                }
 
             }
         });

@@ -6,8 +6,8 @@
     android:background="#E6E6E6">
 
        <LinearLayout
-        android:layout_marginLeft="7sp"
-        android:layout_marginRight="7sp"
+        android:layout_marginLeft="@dimen/common_margin"
+        android:layout_marginRight="@dimen/common_margin"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -20,23 +20,23 @@
             android:background="@android:color/white"
             android:headerDividersEnabled="false"
             android:divider="#E6E6E6"
-            android:dividerHeight="5sp"/>
+            android:dividerHeight="@dimen/common_margin"/>
 
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/sticky"
-        android:layout_marginLeft="7sp"
-        android:layout_marginRight="7sp"
+        android:layout_marginLeft="@dimen/common_margin"
+        android:layout_marginRight="@dimen/common_margin"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:paddingTop="7sp">
+        android:layout_height="@dimen/action_bar_size"
+        android:paddingTop="@dimen/common_margin">
 
         <RelativeLayout
             android:id="@+id/controls"
             android:layout_width="match_parent"
-            android:layout_height="73dp"
-            android:background="@android:color/white"/>
+            android:layout_height="match_parent"
+            android:background="@drawable/actionbar_bg"/>
 
         <simplenote.util.QuickEditText
             android:id="@+id/edit_message"
@@ -51,11 +51,12 @@
             android:imeOptions="actionDone"
             android:textSize="@dimen/font_size"
             android:background="@android:color/white"
-            android:padding="5sp"/>
+            android:layout_marginTop="2dp"
+            android:padding="5dp"/>
 
         <View
         android:layout_width="match_parent"
-        android:layout_height="1sp"
+        android:layout_height="1dp"
         android:background="#D6D6D6"
         android:layout_below="@+id/edit_message"
         android:id="@+id/lineView" />
@@ -65,7 +66,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@android:color/white"
-            android:layout_below="@+id/lineView">
+            android:layout_below="@+id/lineView"
+            android:layout_marginBottom="2dp"
+            android:padding="5dp">
 
         <Button
             android:id="@+id/new_note"
