@@ -16,7 +16,6 @@
 
 package simplenote.activity;
 
-//import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Activity;
@@ -144,11 +143,15 @@ public class MainActivity extends Activity
                     Integer id = notes.getInt(0);
                     String title = notes.getString(1);
                     String note = notes.getString(2);
-                    Long lastModified = notes.getLong(3);
+                    Long lastModified = notes.getLong(4);
+                    Integer deleted = notes.getInt(5);
                     if (note != null) {
+
                         if (id > mNextId)
                             mNextId = id;
-                        mStringAdapter.add(new Note(id, title, note, lastModified));
+
+                        if (deleted == 0)
+                          mStringAdapter.add(new Note(id, title, note, lastModified));
                     }
                 } while (notes.moveToNext());
             }
@@ -342,12 +345,17 @@ public class MainActivity extends Activity
         }
         for (int i = 0; i < itemCount; ++i) {
             View view = mList.getAdapter().getView(i, null, mList);
-            view.measure(
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            mItemOffsetY[i] = mCalculatedHeight;
-            mCalculatedHeight += view.getMeasuredHeight();
-            mCalculatedHeight += mList.getDividerHeight();
+
+            if (view != null) {
+                view.measure(
+                        View.MeasureSpec.makeMeasureSpec(mList.getMeasuredWidth(), View.MeasureSpec.AT_MOST),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                String message = String.format("index: %d, item size: %d", i, view.getMeasuredHeight());
+                Log.v("item size: ", message);
+                mItemOffsetY[i] = mCalculatedHeight;
+                mCalculatedHeight += view.getMeasuredHeight();
+                mCalculatedHeight += mList.getDividerHeight();
+            }
         }
         mIsScrollComputed = true;
     }
