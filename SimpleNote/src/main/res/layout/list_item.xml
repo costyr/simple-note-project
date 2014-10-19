@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/list_item_title"
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -16,6 +17,8 @@
         android:textSize="@dimen/font_size" />
     <TextView
         android:id="@+id/list_item_text"
+        android:maxLines="7"
+        android:minHeight="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/list_item_title"
@@ -23,6 +26,8 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:textSize="@dimen/font_size" />
+        android:textSize="@dimen/medium_font_size"
+        android:textColor="#484848"
+        android:ellipsize="end" />
 
 </RelativeLayout>
